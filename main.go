@@ -10,6 +10,7 @@ var ip_address string
 
 func main() {
 	http.HandleFunc("/", myhandler)
+	http.HandleFunc("/health", heathCheck)
 
 	ip := getIP()
 	if ip == nil {
@@ -18,6 +19,10 @@ func main() {
 		ip_address = ip.To4().String()
 	}
 	http.ListenAndServe(":80", nil)
+}
+
+func heathCheck(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Success")
 }
 
 func getIP() net.IP {
