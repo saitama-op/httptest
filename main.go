@@ -1,12 +1,15 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
+	"io/fs"
 	"math/rand"
 	"net"
 	"net/http"
 	"os"
+	"strconv"
 	"text/template"
 )
 
@@ -16,9 +19,11 @@ type HostDetails struct {
 }
 
 var host HostDetails = HostDetails{}
-var filenames []string = []string{"childrenstory.html", "climatechange.html", "hauntedmanor.html", "junglestory.html", "theknightstory.html"}
 
 func main() {
+	var port string
+	flag.StringVar(&port, "port", "80", "http port for the application")
+	flag.Parse()
 	http.HandleFunc("/", myhandler)
 	http.HandleFunc("/health", heathCheck)
 	hostname, err := os.Hostname()
@@ -33,16 +38,34 @@ func main() {
 	} else {
 		host.IPAddress = ip.To4().String()
 	}
-	http.ListenAndServe(":80", nil)
+	if _, err := strconv.Atoi(port); err != nil {
+		port = "80"
+	}
+	http.ListenAndServe(":"+port, nil)
 }
 
 func heathCheck(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Success")
 }
 
+func listFiles(directory string) ([]fs.DirEntry, error) {
+	files, err := os.ReadDir(directory)
+	if err != nil {
+		return nil, err
+	}
+	return files, nil
+}
+
 func htmlTemplate(w http.ResponseWriter) {
 	storyindex := rand.Intn(5)
-	file, err := os.Open("templates/" + filenames[storyindex])
+	directory := "./templates" // Replace with the directory you want to list files from
+	files, err := listFiles(directory)
+	if err != nil {
+		fmt.Fprintln(w, "opening directory error")
+		return
+	}
+	//fmt.Println(files)
+	file, err := os.Open(directory + string(os.PathSeparator) + files[storyindex].Name())
 	if err != nil {
 		fmt.Fprintln(w, "template opening error")
 		return

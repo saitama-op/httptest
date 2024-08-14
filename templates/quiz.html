@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Capitals Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1> {{.Hostname}} : {{ .IPAddress }}</h1>
+    <h1>World Capitals Quiz</h1>
+
+    <div class="quiz-container">
+        <form id="quizForm" onsubmit="return checkAnswers();">
+            <div class="question">
+                <label for="q1">1. What is the capital of France?</label>
+                <input type="text" id="q1" name="q1">
+            </div>
+            <div class="question">
+                <label for="q2">2. What is the capital of Japan?</label>
+                <input type="text" id="q2" name="q2">
+            </div>
+            <div class="question">
+                <label for="q3">3. What is the capital of Australia?</label>
+                <input type="text" id="q3" name="q3">
+            </div>
+            <div class="question">
+                <label for="q4">4. What is the capital of Canada?</label>
+                <input type="text" id="q4" name="q4">
+            </div>
+            <div class="question">
+                <label for="q5">5. What is the capital of Brazil?</label>
+                <input type="text" id="q5" name="q5">
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            const answers = {
+                q1: 'Paris',
+                q2: 'Tokyo',
+                q3: 'Canberra',
+                q4: 'Ottawa',
+                q5: 'Brasilia'
+            };
+
+            let score = 0;
+            let totalQuestions = Object.keys(answers).length;
+
+            for (let question in answers) {
+                const userAnswer = document.getElementById(question).value.trim().toLowerCase();
+                const correctAnswer = answers[question].toLowerCase();
+
+                if (userAnswer === correctAnswer) {
+                    score++;
+                }
+            }
+
+            document.getElementById('result').textContent = `You scored ${score} out of ${totalQuestions}!`;
+
+            return false; // Prevent page from reloading
+        }
+    </script>
+
+</body>
+</html>
