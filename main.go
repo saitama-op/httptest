@@ -108,7 +108,8 @@ func myhandler(w http.ResponseWriter, r *http.Request) {
 <body>
 
     <header>
-        <h1>Node `+ip_address+`Climate Change and Human Activity</h1>
+        <h1> Response from Node : ` + ip_address + `</h1>
+        <h1> Climate Change and Human Activity</h1>
     </header>
 
     <div class="container">
