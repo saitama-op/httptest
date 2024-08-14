@@ -59,41 +59,84 @@ func myhandler(w http.ResponseWriter, r *http.Request) {
 	<!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Sample HTML Responsive Template` + ip_address + `</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Change Impact</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container-fluid p-5 bg-primary text-white text-center">
-  <h1>Instance IP : ` + ip_address + ` Bootstrap Response Template </h1>
-  <p>Resize this responsive page to see the effect!</p> 
-</div>
-  
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-sm-4">
-      <h3>Column 1</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    <header>
+        <h1>Node `+ip_address+`Climate Change and Human Activity</h1>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h2>The Impact of Human Activity on Climate Change</h2>
+            <p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific research has shown that human activities have accelerated the process, leading to severe consequences for the planet.</p>
+
+            <img src="https://www.example.com/climate-change.jpg" alt="Climate Change Image" />
+
+            <h2>How Human Activity Contributes to Climate Change</h2>
+            <p>Human activities, particularly the burning of fossil fuels like coal, oil, and gas, have increased the concentration of greenhouse gases in the atmosphere. These gases trap heat from the sun, leading to a warming effect known as global warming. Deforestation, industrial processes, and agriculture also contribute to the release of greenhouse gases, exacerbating the problem.</p>
+
+            <h2>Consequences of Climate Change</h2>
+            <ul>
+                <li><strong>Rising Sea Levels:</strong> Melting ice caps and glaciers, combined with the thermal expansion of seawater, are causing sea levels to rise, threatening coastal communities.</li>
+                <li><strong>Extreme Weather Events:</strong> Climate change is leading to more frequent and severe weather events, such as hurricanes, droughts, and floods.</li>
+                <li><strong>Loss of Biodiversity:</strong> Changing climates are forcing many species to migrate, adapt, or face extinction.</li>
+                <li><strong>Impact on Agriculture:</strong> Shifts in climate patterns are affecting crop yields, leading to food shortages and higher prices.</li>
+            </ul>
+
+            <h2>What Can Be Done?</h2>
+            <p>To mitigate the impact of climate change, it is essential to reduce greenhouse gas emissions. This can be achieved by transitioning to renewable energy sources, improving energy efficiency, and protecting forests. Individual actions, such as reducing energy consumption, using public transportation, and supporting sustainable practices, also play a vital role.</p>
+        </div>
     </div>
-    <div class="col-sm-4">
-      <h3>Column 2</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 3</h3>        
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
+
 	`
 	fmt.Fprintln(w, htmlContent)
 }
