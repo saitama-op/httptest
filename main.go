@@ -116,7 +116,7 @@ func myhandler(w http.ResponseWriter, r *http.Request) {
             <h2>The Impact of Human Activity on Climate Change</h2>
             <p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific research has shown that human activities have accelerated the process, leading to severe consequences for the planet.</p>
 
-            <img src="https://github.com/saitama-op/httptest/openapi_generate_image.webp" alt="Climate Change Image" />
+            <img src="https://raw.githubusercontent.com/saitama-op/httptest/main/openapi_generate_image.webp" alt="Climate Change Image" />
 
             <h2>How Human Activity Contributes to Climate Change</h2>
             <p>Human activities, particularly the burning of fossil fuels like coal, oil, and gas, have increased the concentration of greenhouse gases in the atmosphere. These gases trap heat from the sun, leading to a warming effect known as global warming. Deforestation, industrial processes, and agriculture also contribute to the release of greenhouse gases, exacerbating the problem.</p>
