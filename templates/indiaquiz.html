@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .quiz-container h2 {
+            text-align: center;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question h3 {
+            margin-bottom: 10px;
+        }
+        .question label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1> {{.Hostname}} : {{ .IPAddress }}</h1>
+    <h2>India Quiz</h2>
+
+    <form id="quizForm">
+
+        <!-- Question 1 -->
+        <div class="question">
+            <h3>1. What is the capital of India?</h3>
+            <label><input type="radio" name="q1" value="Mumbai"> Mumbai</label>
+            <label><input type="radio" name="q1" value="Kolkata"> Kolkata</label>
+            <label><input type="radio" name="q1" value="Delhi"> Delhi</label>
+            <label><input type="radio" name="q1" value="Chennai"> Chennai</label>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question">
+            <h3>2. Who is known as the Father of the Nation in India?</h3>
+            <label><input type="radio" name="q2" value="Jawaharlal Nehru"> Jawaharlal Nehru</label>
+            <label><input type="radio" name="q2" value="Mahatma Gandhi"> Mahatma Gandhi</label>
+            <label><input type="radio" name="q2" value="Subhash Chandra Bose"> Subhash Chandra Bose</label>
+            <label><input type="radio" name="q2" value="Sardar Patel"> Sardar Patel</label>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question">
+            <h3>3. What is the national animal of India?</h3>
+            <label><input type="radio" name="q3" value="Lion"> Lion</label>
+            <label><input type="radio" name="q3" value="Elephant"> Elephant</label>
+            <label><input type="radio" name="q3" value="Tiger"> Tiger</label>
+            <label><input type="radio" name="q3" value="Peacock"> Peacock</label>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question">
+            <h3>4. Which river is considered the holiest river in India?</h3>
+            <label><input type="radio" name="q4" value="Yamuna"> Yamuna</label>
+            <label><input type="radio" name="q4" value="Ganga"> Ganga</label>
+            <label><input type="radio" name="q4" value="Narmada"> Narmada</label>
+            <label><input type="radio" name="q4" value="Brahmaputra"> Brahmaputra</label>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question">
+            <h3>5. In which year did India gain independence?</h3>
+            <label><input type="radio" name="q5" value="1945"> 1945</label>
+            <label><input type="radio" name="q5" value="1947"> 1947</label>
+            <label><input type="radio" name="q5" value="1950"> 1950</label>
+            <label><input type="radio" name="q5" value="1952"> 1952</label>
+        </div>
+
+        <button type="button" class="submit-btn" onclick="submitQuiz()">Submit</button>
+
+    </form>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function submitQuiz() {
+        var form = document.getElementById('quizForm');
+        var score = 0;
+
+        // Correct answers
+        var answers = {
+            q1: "Delhi",
+            q2: "Mahatma Gandhi",
+            q3: "Tiger",
+            q4: "Ganga",
+            q5: "1947"
+        };
+
+        // Check each answer
+        for (var question in answers) {
+            var radios = form.elements[question];
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    if (radios[i].value === answers[question]) {
+                        score++;
+                    }
+                }
+            }
+        }
+
+        // Display result
+        var result = document.getElementById('result');
+        result.innerHTML = "<h3>You scored " + score + " out of 5.</h3>";
+    }
+</script>
+
+</body>
+</html>
