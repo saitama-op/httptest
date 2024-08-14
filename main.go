@@ -57,13 +57,13 @@ func listFiles(directory string) ([]fs.DirEntry, error) {
 }
 
 func htmlTemplate(w http.ResponseWriter) {
-	storyindex := rand.Intn(5)
 	directory := "./templates" // Replace with the directory you want to list files from
 	files, err := listFiles(directory)
 	if err != nil {
 		fmt.Fprintln(w, "opening directory error")
 		return
 	}
+	storyindex := rand.Intn(len(files))
 	//fmt.Println(files)
 	file, err := os.Open(directory + string(os.PathSeparator) + files[storyindex].Name())
 	if err != nil {
