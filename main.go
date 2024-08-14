@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"math/rand"
 	"net"
 	"net/http"
 	"os"
@@ -15,6 +16,7 @@ type HostDetails struct {
 }
 
 var host HostDetails = HostDetails{}
+var filenames []string = []string{"childrenstory.html", "climatechange.html", "hauntedmanor.html", "junglestory.html", "theknightstory.html"}
 
 func main() {
 	http.HandleFunc("/", myhandler)
@@ -39,7 +41,8 @@ func heathCheck(w http.ResponseWriter, r *http.Request) {
 }
 
 func htmlTemplate(w http.ResponseWriter) {
-	file, err := os.Open("templates/homepage.html")
+	storyindex := rand.Intn(5)
+	file, err := os.Open("templates/" + filenames[storyindex])
 	if err != nil {
 		fmt.Fprintln(w, "template opening error")
 		return
