@@ -2,27 +2,57 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net"
 	"net/http"
+	"os"
+	"text/template"
 )
 
-var ip_address string
+type HostDetails struct {
+	IPAddress string
+	Hostname  string
+}
+
+var host HostDetails = HostDetails{}
 
 func main() {
 	http.HandleFunc("/", myhandler)
 	http.HandleFunc("/health", heathCheck)
-
+	hostname, err := os.Hostname()
+	if err != nil {
+		host.Hostname = "Error while retriving hostname"
+	} else {
+		host.Hostname = hostname
+	}
 	ip := getIP()
 	if ip == nil {
-		ip_address = "Unknown"
+		host.IPAddress = "Unknown"
 	} else {
-		ip_address = ip.To4().String()
+		host.IPAddress = ip.To4().String()
 	}
 	http.ListenAndServe(":80", nil)
 }
 
 func heathCheck(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Success")
+}
+
+func htmlTemplate(w http.ResponseWriter) {
+	file, err := os.Open("templates/homepage.html")
+	if err != nil {
+		fmt.Fprintln(w, "template opening error")
+		return
+	}
+	defer file.Close()
+	fileContent, err := io.ReadAll(file)
+	if err != nil {
+		fmt.Fprintln(w, "template reading error")
+		return
+	}
+	template.New("test").Parse(string(fileContent))
+	s := template.Must(template.New("test").Parse(string(fileContent)))
+	s.Execute(w, host)
 }
 
 func getIP() net.IP {
@@ -46,98 +76,12 @@ func getIP() net.IP {
 				ip = v.IP
 			}
 			if ip.IsPrivate() && ip.To4() != nil {
-				fmt.Println(ip.To4().String())
 				return ip
 			}
-			fmt.Println("ignoring : ", ip)
 		}
 	}
 	return nil
 }
 func myhandler(w http.ResponseWriter, r *http.Request) {
-	htmlContent := `
-	<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Climate Change Impact</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 20px;
-        }
-        .content {
-            background-color: white;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            color: #333;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1> Response from Node : ` + ip_address + `</h1>
-        <h1> Climate Change and Human Activity</h1>
-    </header>
-
-    <div class="container">
-        <div class="content">
-            <h2>The Impact of Human Activity on Climate Change</h2>
-            <p>Climate change refers to significant changes in global temperatures and weather patterns over time. While climate change is a natural phenomenon, scientific research has shown that human activities have accelerated the process, leading to severe consequences for the planet.</p>
-
-            <img src="https://raw.githubusercontent.com/saitama-op/httptest/main/openapi_generate_image.webp" alt="Climate Change Image" />
-
-            <h2>How Human Activity Contributes to Climate Change</h2>
-            <p>Human activities, particularly the burning of fossil fuels like coal, oil, and gas, have increased the concentration of greenhouse gases in the atmosphere. These gases trap heat from the sun, leading to a warming effect known as global warming. Deforestation, industrial processes, and agriculture also contribute to the release of greenhouse gases, exacerbating the problem.</p>
-
-            <h2>Consequences of Climate Change</h2>
-            <ul>
-                <li><strong>Rising Sea Levels:</strong> Melting ice caps and glaciers, combined with the thermal expansion of seawater, are causing sea levels to rise, threatening coastal communities.</li>
-                <li><strong>Extreme Weather Events:</strong> Climate change is leading to more frequent and severe weather events, such as hurricanes, droughts, and floods.</li>
-                <li><strong>Loss of Biodiversity:</strong> Changing climates are forcing many species to migrate, adapt, or face extinction.</li>
-                <li><strong>Impact on Agriculture:</strong> Shifts in climate patterns are affecting crop yields, leading to food shortages and higher prices.</li>
-            </ul>
-
-            <h2>What Can Be Done?</h2>
-            <p>To mitigate the impact of climate change, it is essential to reduce greenhouse gas emissions. This can be achieved by transitioning to renewable energy sources, improving energy efficiency, and protecting forests. Individual actions, such as reducing energy consumption, using public transportation, and supporting sustainable practices, also play a vital role.</p>
-        </div>
-    </div>
-
-</body>
-</html>
-
-	`
-	fmt.Fprintln(w, htmlContent)
+	htmlTemplate(w)
 }
